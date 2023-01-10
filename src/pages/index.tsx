@@ -5,7 +5,7 @@ import Link from "next/link";
 import { api } from "../utils/api";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const { data, isLoading } = api.entertainment.getAll.useQuery();
 
   return (
     <>
@@ -43,9 +43,10 @@ const Home: NextPage = () => {
               </div>
             </Link>
           </div>
-          <p className="text-2xl text-white">
-            {hello.data ? hello.data.greeting : "Loading tRPC query..."}
-          </p>
+          {!isLoading &&
+            data!.moviesAndVideos.map((movieOrVideo) => (
+              <p>{movieOrVideo.title}</p>
+            ))}
         </div>
       </main>
     </>
